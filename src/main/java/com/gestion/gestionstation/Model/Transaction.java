@@ -2,13 +2,14 @@ package com.gestion.gestionstation.Model;
 
 public class Transaction {
     private int idTransaction;
-    private int idStation;
     private String typeOfTransaction;
 
-    public Transaction(int idTransaction, int idStation, String typeOfTransaction) {
+    private int quantity;
+
+    public Transaction(int idTransaction, String typeOfTransaction,int quantity) {
         this.idTransaction = idTransaction;
-        this.idStation = idStation;
         this.typeOfTransaction = typeOfTransaction;
+        this.quantity = quantity;
     }
 
     public int getIdTransaction() {
@@ -19,12 +20,12 @@ public class Transaction {
         this.idTransaction = idTransaction;
     }
 
-    public int getIdStation() {
-        return idStation;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public void setIdStation(int idStation) {
-        this.idStation = idStation;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     public String getTypeOfTransaction() {
@@ -39,8 +40,8 @@ public class Transaction {
     public String toString() {
         return "Transaction{" +
                 "idTransaction=" + idTransaction +
-                ", idStation=" + idStation +
                 ", typeOfTransaction='" + typeOfTransaction + '\'' +
+                ", quantity=" + quantity +
                 '}';
     }
 }
