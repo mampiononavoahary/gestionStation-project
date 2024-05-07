@@ -52,16 +52,72 @@ public class DetailProductCrudOperation implements CrudOperation<DetailProduct>{
 
     @Override
     public List<DetailProduct> saveAll(List<DetailProduct> toSave) {
-        return null;
+        List<DetailProduct> asArray = new ArrayList<>();
+        try {
+            String req = "INSERT INTO DetailProduct(idDetailProduct,productName,productPrice,productInStock,evaporationRate) VALUES(?,?,?,?,?)";
+            getConnection();
+            try(PreparedStatement statement = connection.prepareStatement(req)) {
+                for (DetailProduct detailProduct : toSave){
+                    statement.setInt(1,detailProduct.getIdDetailProduct());
+                    statement.setString(2, detailProduct.getProductName());
+                    statement.setDouble(3,detailProduct.getProductPrice());
+                    statement.setInt(4,detailProduct.getProductInStock());
+                    statement.setInt(5,detailProduct.getEvaporationRate());
+
+                    int rows = statement.executeUpdate();
+
+                    if (rows>0){
+                        asArray.add(detailProduct);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        return asArray;
     }
 
     @Override
     public DetailProduct save(DetailProduct toSave) {
-        return null;
+       try {
+            String sql = "INSERT INTO DetailProduct(idDetailProduct,productName,productPrice,productInStock,evaporationRate) VALUES(?,?,?,?,?)";
+            getConnection();
+            try (PreparedStatement statement = connection.prepareStatement(sql)){
+                      statement.setInt(1,toSave.getIdDetailProduct());
+                      statement.setString(2,toSave.getProductName());
+                      statement.setDouble(3,toSave.getProductPrice());
+                      statement.setInt(4,toSave.getProductInStock());
+                      statement.setInt(5,toSave.getEvaporationRate());
+
+                      statement.executeUpdate();
+            }
+       }catch (SQLException e) {
+           throw new RuntimeException(e);
+       } catch (ClassNotFoundException e) {
+           throw new RuntimeException(e);
+       }
+
+       return null;
     }
 
     @Override
-    public DetailProduct update(DetailProduct toUpdate) {
+    public DetailProduct update(DetailProduct toUpdate) throws SQLException {
+        try {
+           String req = "UPDATE DetailProduct SET productName=?,productPrice=?,productInStock=?,evaporationRate=? WHERE idDetailProduct=?;";
+           getConnection();
+           try(PreparedStatement statement = connection.prepareStatement(req)) {
+                statement.setString(1,toUpdate.getProductName());
+                statement.setDouble(2,toUpdate.getProductPrice());
+                statement.setInt(3,toUpdate.getProductInStock());
+                statement.setInt(4,toUpdate.getEvaporationRate());
+
+                statement.executeUpdate();
+           }
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
         return null;
     }
 }
